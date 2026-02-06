@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>小狐狸的小窝</title>
+  <meta name="description" content="开源理想主义者 | 社区建设者 | 高一学生">
+  <style>
+    /* =============== 全局重置与变量 =============== */
+    :root {
+      --bg: #fafafa;
+      --card-bg: #ffffff;
+      --text: #333;
+      --text-light: #666;
+      --primary: #1a5fb4;
+      --border: #eee;
+      --shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --card-bg: #1e1e1e;
+        --text: #e6e6e6;
+        --text-light: #aaa;
+        --border: #333;
+        --shadow: 0 2px 8px rgba(0,0,0,0.2);
+      }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--bg);
+      padding: 16px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* =============== 头部 =============== */
+    .header {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .site-title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-light);
+    }
+
+    /* =============== 卡片通用样式 =============== */
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+    }
+
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      background: var(--primary);
+      border-radius: 2px;
+      margin-right: 10px;
+    }
+
+    /* =============== 个人简介 =============== */
+    .bio {
+      font-size: 1rem;
+      margin-bottom: 16px;
+      white-space: pre-line;
+      text-align: justify;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      background: rgba(26, 95, 180, 0.1);
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+
+    /* =============== 社交链接 =============== */
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 480px) {
+      .links-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    .social-link:hover {
+      background: rgba(26, 95, 180, 0.08);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .link-icon {
+      font-size: 1.2rem;
+    }
+
+    /* =============== 项目/产业 =============== */
+    .projects {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .project-item {
+      padding: 14px;
+      border-left: 3px solid var(--primary);
+      background: rgba(26, 95, 180, 0.03);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .project-item h3 {
+      font-size: 1.1rem;
+      margin: 0 0 6px 0;
+    }
+
+    .project-item p {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      margin: 0 0 8px 0;
+    }
+
+    .project-link {
+      display: inline-block;
+      font-size: 0.9rem;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .project-link:hover {
+      text-decoration: underline;
+    }
+
+    /* =============== 友情链接 =============== */
+    .friends {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .friend-link {
+      display: block;
+      padding: 8px 0;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .friend-link:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .friend-note {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-left: 4px;
+    }
+
+    /* =============== 页脚 =============== */
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-light);
+      font-size: 0.85rem;
+    }
+
+    /* =============== 按钮优化（适配手机点击） =============== */
+    a, button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+/* =============== 图片大小限制 =============== */
+.bio img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px 0;
+  border-radius: 6px;
+}
+
+
+
+    @media (max-width: 360px) {
+      body { padding: 12px; }
+      .card { padding: 16px; }
+      .site-title { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 顶部 -->
+  <header class="header">
+    <h1 class="site-title">欢迎来到小狐狸的小窝</h1>
+    <p class="subtitle">开源理想主义者 · 社区建设者 · 高一学生</p>
+  </header>
+
+  <!-- 关于我 -->
+  <section class="card">
+    <h2 class="section-title">语音 | Languages</h2>
+    <div class="tags">
+      <span class="tag">Python</span>
+      <span class="tag">C++</span>
+      <span class="tag">C</span>
+      <span class="tag">HTML</span>
+      <span class="tag">Go</span>
+    </div>
+  </section>
+    
+  <section class="card">
+    <h2 class="section-title">技能 | Skill</h2>
+    <div class="tags">
+      <span class="tag">Flask</span>
+      <span class="tag">Fastapi</span>
+      
+      <span class="tag">Web 框架设计</span>
+      <span class="tag">社区运营</span>
+  </div>
+  </section>
+  
+  <section class="card">
+    <h2 class="section-title">标签 | Taps</h2>
+    <div class="tags">
+      <span class="tag">开源</span>
+      
+      <span class="tag">Furry</span>
+      <span class="tag">二次元</span>
+      <span class="tag">自由</span>
+      <span class="tag">猫耳娘</span>
+      
+      <span class="tag">小说</span>
+      <span class="tag">编程</span>
+      <span class="tag">数电</span>
+      <span class="tag">艺术</span>
+      <span class="tag">绘画</span>
+      <span class="tag">素描</span>
+      <span class="tag">插画</span>
+    </div>
+  </section>
+
+<section class="card">
+  <h2 class="section-title">卡片 | Card</h2>
+  <p class="bio">
+    40code
+    <img src="https://screadme.yearnstudio.cn/?code=2117&username=%E5%B0%8F%E7%8B%90%E7%8B%B8" alt="小狐狸">
+    Sbox
+    <img src="https://sc-start.shunx.top?sbox=%E4%B9%A6%E5%BF%B5&username=%E4%B9%A6%E5%BF%B5" alt="书念">
+    Github
+    <img src="https://github-readme-stats.vercel.app/api?username=shunianssy" alt="shunianssy(可能不显示)">
+  </p>
+</section>
+
+  <section class="card">
+    <h2 class="section-title">签名 | Signature</h2>
+    <p class="bio">
+    1  我与今夕共入眠，醒时与年同添岁
+    
+    2  理想不必宏大，坚持本身就伟大
+    
+    3  放弃就放弃，要做就做，不后悔，不内耗，做自己认为正确的事，人在世，不过尔尔
+    
+    4  清醒的堕落最为致命，提升自己永远比仰望别人更有意义
+    
+    5  本来无望的事，大胆尝试，往往能成功
+    
+    6  风雪压我两三年，我笑风轻雪如棉
+    
+    7  以笔为剑，以梦为马
+    </p>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title">简介 | intro</h2>
+    <p class="bio">
+    你好啊，这里是小狐狸
+    
+    6年编程经验，现在是第1月有自己的电脑
+    (有人借口没有电脑不能编程——可是我曾经甚至在老人机上完成java编程)
+    
+    我的主导项目:
+    
+    foxar(正在开发)
+    
+    fishtxt(正在开发)
+    
+    foncart(正在筹划)
+    
+    Sbox社区(小盒子社区)
+    
+    foxmath (已停止开发)
+    
+    我的家庭背景：
+    
+    1  这里是出生于反对游戏家庭的游戏设计师(也是那个唱过马云赶紧下架网络游戏的家庭里面的游戏设计师)
+    
+    2  出生于反对电子产品的家庭的科技研究者
+    
+    3  出生于反对AI使用的家庭的AI研究者
+    
+    4  出生于眼里面只有成绩的家庭的课外兴趣热爱者
+    
+    5  出生于讨厌音乐的家庭的音乐爱好者和研究者
+    
+    6  出生于反对美术生以外的美术的家庭的非美术生课内研究的绘画研究者
+    
+    我全身上下只有反骨，非常讨厌家庭环境，也非常讨厌不自由的环境
+    
+    自由，不由他人来定，只有我自己决定我要干什么
+    </p>
+  </section>
+
+  <!-- 支持我 -->
+  <section class="card">
+    <h2 class="section-title">支持 | Help</h2>
+    <div class="links-grid">
+      <a href="https://afdian.com/a/shunian" target="_blank" class="social-link">
+        <span>来爱发电赞助我一杯饮料</span>
+      </a>
+    </div>
+    
+    <h2 class="section-title">赞赏与鸣谢 | Thanks</h2>
+    <div class="friends">
+    <p>vear 2026.1.17 微信赞助 5r</p>
+    <p>(按时间排序)</p>
+    </div>
+  </section>
+
+  <!-- 社交链接 -->
+  <section class="card">
+    <h2 class="section-title">社交链接 |Social Links</h2>
+    <div class="links-grid">
+      <a href="https://github.com/shunianssy" target="_blank" class="social-link">
+        <span>GitHub</span>
+      </a>
+      <a href="https://gitee.com/wujiajiouwei" target="_blank" class="social-link">
+        <span>Gitee</span>
+      </a>
+      <a href="https://b23.tv/jL442SS" target="_blank" class="social-link">
+        <span>bilibili</span>
+      </a>
+      <a href="https://www.csdn.net/apps/download/?callback=csdnapp%3A%2F%2Fweb%3Furl%3Dhttps%3A%2F%2Fapp.csdn.net%2Fother%3Fusername%3Dshunianssy&code=app_1561708395&csdn_share_tail=%7B%22rid%22%3A%220%22%2C%22rtype%22%3A%22blog%22%2C%22source%22%3A%22Shunianssy%22%2C%22type%22%3A%22blog%22%7D&uLinkId=usr13c7d6l79orgk" target="_blank" class="social-link">
+        <span>CSDN</span>
+      </a>
+      <a href="mailto:shunianssy@163.com" class="social-link">
+        <span>邮箱联系 | Email</span>
+      </a>
+    </div>
+  </section>
+  
+  <section class="card">
+    <h2 class="section-title">组织 | Organization</h2>
+    <p>梦幻工坊 负责人</p>
+    <p>鱼干网络科技 负责人</p>
+    <p>吾狐科创 负责人</p>
+    <p>Yearn Studio 成员</p>
+  </section>
+  
+  <!-- Sbox 旗下产业 -->
+  <section class="card">
+    <h2 class="section-title">项目 | Project</h2>
+    <div class="projects">
+      <div class="project-item">
+        <h3>Sbox scratch</h3>
+        <p>面向青少年的开源编程学习社区，完全公益，不限网速，注册用户超 160，活跃度高</p>
+        <a href="https://stop.yearnstudio.cn/scratch" target="_blank" class="project-link">→ 访问</a>
+      </div>
+      <div class="project-item">
+        <h3>OPENSbox Web</h3>
+        <p>依据AGPLv3开源Sbox前端</p>
+        <a href="https://github.com/shunianssy/sbox-web" target="_blank" class="project-link">→ Github</a>
+      </div>
+      <div class="project-item">
+        <h3>Sbunx 官网</h3>
+        <p>Sbox官方网站</p>
+        <a href="https://shunx.top" target="_blank" class="project-link">→ 访问</a>
+      </div>
+      <div class="project-item">
+        <h3>Sbox Docs</h3>
+        <p>Sbox相关文档</p>
+        <a href="https://sbox-docs.shunx.top" target="_blank" class="project-link">→ 访问</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 开源项目 -->
+  <section class="card">
+    <h2 class="section-title">开源 | open source</h2>
+    <div class="projects">
+      <div class="project-item">
+      
+        <!-- github -->
+     
+        <h3>foxwebsite MPLv2</h3>
+        <p>自主开发的轻量级 Python Web 框架（Flask 风格）</p>
+        <a href="https://github.com/shunianssy/foxwebsite" target="_blank" class="project-link">→ GitHub</a>
+      </div>
+      
+      <div class="project-item">
+        <h3>Classtap AGPLv3</h3>
+        <p>一个类似安卓的简洁作业布置控制板</p>
+        <a href="https://github.com/shunianssy/ClassTap" target="_blank" class="project-link">→ GitHub</a>
+      </div>
+      
+      <div class="project-item">
+        <h3>OPENSbox Web AGPLv3</h3>
+        <p>依据AGPLv3开源Sbox前端</p>
+        <a href="https://github.com/shunianssy/sbox-web" target="_blank" class="project-link">→ Github</a>
+      </div>
+      
+      <!-- gitee -->
+      
+      <div class="project-item">
+        <h3>书念图床 AGPLv3</h3>
+        <p>一个专注于图片存储与管理的开源项目，支持快速上传、便捷管理和高效调用，助力开发者轻松构建图片处理功能</p>
+        <a href="https://gitee.com/wujiajiouwei/reading-and-picture-bed" target="_blank" class="project-link">→ Gitee</a>
+      </div>
+      
+      <!-- scratch -->
+      
+      <div class="project-item">
+        <h3>Myfoxapi GPLv3</h3>
+        <p>用scratch实现的api接口展示器</p>
+        <a href="https://40code.com/#page=work&id=15627" target="_blank" class="project-link">→ 40code</a>
+      </div>
+      
+      <div class="project-item">
+        <h3>ShunX 记忆卡 Scratch GPLv3</h3>
+        <p>scratch实现类Anki记忆卡片</p>
+        <a href="https://40code.com/#page=work&id=15810" target="_blank" class="project-link">→ 40code</a>
+      </div>
+      
+      <div class="project-item">
+        <h3>Brainfuck++ 编译器 1.5 GPLv3</h3>
+        <p>用scratch实现的Brainfuck++编译器，添加了一些原来没有的语法</p>
+        <a href="https://40code.com/#page=work&id=15810" target="_blank" class="project-link">→ 40code</a>
+      </div>
+      
+      <div class="project-item">
+        <h3>一次线性回 scratch GPLv3</h3>
+        <p>用scratch实现的一次线性回归算法</p>
+        <a href="https://40code.com/#page=work&id=14019" target="_blank" class="project-link">→ 40code</a>
+      </div>
+      
+      <div class="project-item">
+        <h3>星星小瓶 Scratch GPLv3</h3>
+        <p>scratch实现类Anki记忆卡片</p>
+        <a href="https://40code.com/#page=work&id=13398" target="_blank" class="project-link">→ 40code 1</a><br>
+        <a href="https://40code.com/#page=work&id=13415" target="_blank" class="project-link">→ 40code 2</a>
+      </div>
+      
+      <div class="project-item">
+        <h3>【可联机】五子棋一代 GPLv3</h3>
+        <p>Scratch实现的可联机五子棋</p>
+        <a href="https://40code.com/#page=work&id=13669" target="_blank" class="project-link">→ 40code</a><br>
+        <a href="https://codingclip.com/project/5896" target="_blank" class="project-link">→ codeingclip</a>
+      </div>
+      
+      <div class="project-item">
+        <h3>植物大战僵尸 GPLv3</h3>
+        <p>用scratch实现植物大战僵尸</p>
+        <a href="https://40code.com/#page=work&id=11760" target="_blank" class="project-link">→ 40code</a>
+        <a href="https://40code.com/#page=work&id=11094" target="_blank" class="project-link">→ 40code(旧版)</a>
+      </div>
+      
+      <div class="project-item">
+        <h3>书念画板 GPLv3</h3>
+        <p>foxmath前身</p>
+        <a href="https://40code.com/#page=work&id=12679" target="_blank" class="project-link">→ 40code 3</a><br>
+        <a href="https://40code.com/#page=work&id=12709" target="_blank" class="project-link">→ 40code 3.1</a>
+      </div>
+      
+      <div class="project-item">
+        <h3>Foxmath GPLv3</h3>
+        <p>用scratch实现的函数画板</p>
+        <a href="https://40code.com/#page=work&id=13112" target="_blank" class="project-link">→ 40code 1</a><br>
+        <a href="https://40code.com/#page=work&id=13152" target="_blank" class="project-link">→ 40code 2</a>
+      </div>
+      
+      <div class="project-item">
+        <h3>Foxmath4 GPLv3</h3>
+        <p>用scratch实现的函数画板</p>
+        <a href="https://40code.com/#page=work&id=13559" target="_blank" class="project-link">→ 40code funcArt前身</a>
+        <a href="https://40code.com/#page=work&id=13748" target="_blank" class="project-link">→ 40code Foxmath最后修正</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 参与贡献 -->
+  <section class="card">
+    <h2 class="section-title">贡献 | Contribution</h2>
+    <div class="projects">
+      <div class="project-item">
+        <h3>Scratch README Stats</h3>
+        <p>用于生成适用于Scratch社区的个人信息卡片</p>
+        <a href="https://github.com/YearnstudioYangyi/scratch-readme-stats" target="_blank" class="project-link">→ GitHub</a>
+      </div>
+    <div class="projects">
+      <div class="project-item">
+        <h3>ExtensionHotReloader</h3>
+        <p>Extension Developing Hot Reload for Turbowarp</p>
+        <a href="https://github.com/YearnstudioHorizon/ExtensionHotReloader" target="_blank" class="project-link">→ GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 资源网站 -->
+  <section class="card">
+    <h2 class="section-title">资源 Resource</h2>
+    <div class="projects">
+      <div class="project-item">
+        <h3>小狐资源站</h3>
+        <p>工具，软件，资源，书籍的大资源整合网站</p>
+        <a href="https://url12.ctfile.com/d/65362512-154842620-8c8065?p=6406" target="_blank" class="project-link">→ 前往</a>
+      </div>
+      <div class="project-item">
+        <h3>scratch优秀案例资源站</h3>
+        <p>收集全网优秀scratch案例，让信息教师更好的查找案例</p>
+        <a href="https://url12.ctfile.com/d/65362512-157678313-924f5e?p=6406" target="_blank" class="project-link">→ 前往</a>
+      </div>
+      <div class="project-item">
+        <h3>小狐狸的手提工作箱</h3>
+        <p>小狐狸执行接单任务时要用的工具箱</p>
+        <a href="https://url12.ctfile.com/d/65362512-159412829-2b7aa6?p=6406" target="_blank" class="project-link">→ 前往</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 友情链接 -->
+  <section class="card">
+    <h2 class="section-title">广告 | Advertising</h2>
+    <div class="friends">
+      <a href="https://stop.yearnstudio.cn/scratch" target="_blank" class="friend-link">
+        小盒子社区 <span class="friend-note">（scratch机制完善）</span>
+      </a>
+      <a href="https://www.rainyun.com/NjQwNjg5_" target="_blank" class="friend-link">
+        雨云 <span class="friend-note">（凭此邀请链接可获得一定优惠）</span>
+      </a>
+      <a href="https://www.bigmodel.cn/glm-coding?ic=AV78WLI4AS" target="_blank" class="friend-link">
+        智谱ai <span class="friend-note">（凭此链接下单立减10%）</span>
+      </a>
+      <p>这里招本页广告位，需网站备案，10r/条每月</p>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <p>© 2026 个人站点 · 工艺匠心 · 用爱发电</p>
+    <p style="margin-top:6px; font-size:0.8rem;">坚持开源，相信共享，步履不停</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const email = this.href.replace('mailto:', '');
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(email).then(() => {
+            alert('邮箱已复制：' + email);
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
